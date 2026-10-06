@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "1.0.0",
+  "catalogStatus": "candidate",
+  "entries": [
+    {
+      "id": "erpnext-v15-candidate",
+      "status": "candidate",
+      "erpnextMajor": 15,
+      "sourceEvidence": [
+        "https://github.com/frappe/frappe_docker/blob/main/docs/02-setup/04-env-variables.md",
+        "https://raw.githubusercontent.com/frappe/frappe_docker/main/compose.yaml",
+        "https://raw.githubusercontent.com/frappe/frappe_docker/main/overrides/compose.mariadb.yaml",
+        "https://raw.githubusercontent.com/frappe/frappe_docker/main/overrides/compose.redis.yaml"
+      ],
+      "compose": {
+        "repository": "frappe/frappe_docker",
+        "sourceRef": "main",
+        "sourceCommit": "e08b50ca057139c6e8c9117838ee3f5c5ee64a37",
+        "files": [
+          "compose.yaml",
+          "overrides/compose.mariadb.yaml",
+          "overrides/compose.redis.yaml"
+        ]
+      },
+      "images": {
+        "erpnext": {
+          "repository": "frappe/erpnext",
+          "tag": "v15.67.0",
+          "digest": "sha256:724b7bd32c4005ece264cdb2c9a4a9bcf5fba771df361bd35253ac58f7b51ad8"
+        },
+        "mariadb": {
+          "repository": "mariadb",
+          "tag": "11.8",
+          "digest": "sha256:93fc3fe333b6cdfb061425869c2c3a5bb2851c0c74dbebc2c940f024e7482d76"
+        },
+        "redis": {
+          "repository": "redis",
+          "tag": "8.6-alpine",
+          "digest": "sha256:019e4fb3c6de024c8f70ab5219d4abded5f335de770876981c7b0a051c43df87"
+        }
+      },
+      "requirements": {
+        "architecture": "x64",
+        "minimumWslVersion": "2.1.5",
+        "minimumDockerDesktopVersion": null
+      },
+      "promotionChecklist": [
+        "Record the exact immutable digest for every image.",
+        "Pin the upstream frappe_docker source commit and copy only reviewed files.",
+        "Validate a fresh installation on the Windows x64/WSL2 matrix.",
+        "Validate backup, restore, Repair, and data-safe Reset.",
+        "Record the tested Docker Desktop version and Windows builds."
+      ],
+      "approval": null
+    },
+    {
+      "id": "erpnext-v16-candidate",
+      "status": "candidate",
+      "erpnextMajor": 16,
+      "sourceEvidence": [
+        "https://raw.githubusercontent.com/frappe/frappe_docker/main/example.env",
+        "https://raw.githubusercontent.com/frappe/frappe_docker/main/compose.yaml",
+        "https://raw.githubusercontent.com/frappe/frappe_docker/main/overrides/compose.mariadb.yaml",
+        "https://raw.githubusercontent.com/frappe/frappe_docker/main/overrides/compose.redis.yaml"
+      ],
+      "compose": {
+        "repository": "frappe/frappe_docker",
+        "sourceRef": "main",
+        "sourceCommit": "e08b50ca057139c6e8c9117838ee3f5c5ee64a37",
+        "files": [
+          "compose.yaml",
+          "overrides/compose.mariadb.yaml",
+          "overrides/compose.redis.yaml"
+        ]
+      },
+      "images": {
+        "erpnext": {
+          "repository": "frappe/erpnext",
+          "tag": "v16.50.0",
+          "digest": "sha256:6d78e4474a4b5664a829cdba6c3ff806226ce81309995bfc46874493de492b1e"
+        },
+        "mariadb": {
+          "repository": "mariadb",
+          "tag": "11.8",
+          "digest": "sha256:93fc3fe333b6cdfb061425869c2c3a5bb2851c0c74dbebc2c940f024e7482d76"
+        },
+        "redis": {
+          "repository": "redis",
+          "tag": "8.6-alpine",
+          "digest": "sha256:019e4fb3c6de024c8f70ab5219d4abded5f335de770876981c7b0a051c43df87"
+        }
+      },
+      "requirements": {
+        "architecture": "x64",
+        "minimumWslVersion": "2.1.5",
+        "minimumDockerDesktopVersion": null
+      },
+      "promotionChecklist": [
+        "Record the exact immutable digest for every image.",
+        "Pin the upstream frappe_docker source commit and copy only reviewed files.",
+        "Validate a fresh installation on the Windows x64/WSL2 matrix.",
+        "Validate backup, restore, Repair, and data-safe Reset.",
+        "Record the tested Docker Desktop version and Windows builds."
+      ],
+      "approval": null
+    }
+  ]
+}

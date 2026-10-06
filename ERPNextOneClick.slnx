@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ERPNextOneClick.Cli/ERPNextOneClick.Cli.csproj" />
+    <Project Path="src/ERPNextOneClick.Core/ERPNextOneClick.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ERPNextOneClick.Core.Tests/ERPNextOneClick.Core.Tests.csproj" />
+  </Folder>
+</Solution>

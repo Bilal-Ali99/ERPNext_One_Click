@@ -1,0 +1,32 @@
+# Codex per-task scratch state
+.codex/tasks/*
+!.codex/tasks/.gitkeep
+
+# .NET build and IDE output
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Test and coverage output
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+secrets/
+logs/
+diagnostics/
+backups/
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0.0",
+  "catalogStatus": "approved",
+  "entries": [
+    {
+      "id": "erpnext-v16-invalid-approved",
+      "status": "approved",
+      "erpnextMajor": 16,
+      "sourceEvidence": [
+        "https://raw.githubusercontent.com/frappe/frappe_docker/main/example.env"
+      ],
+      "compose": {
+        "repository": "frappe/frappe_docker",
+        "sourceRef": "main",
+        "sourceCommit": null,
+        "files": [
+          "compose.yaml",
+          "overrides/compose.mariadb.yaml",
+          "overrides/compose.redis.yaml"
+        ]
+      },
+      "images": {
+        "erpnext": {
+          "repository": "frappe/erpnext",
+          "tag": "v16.50.0",
+          "digest": null
+        },
+        "mariadb": {
+          "repository": "mariadb",
+          "tag": "11.8",
+          "digest": null
+        },
+        "redis": {
+          "repository": "redis",
+          "tag": "8.6-alpine",
+          "digest": null
+        }
+      },
+      "requirements": {
+        "architecture": "x64",
+        "minimumWslVersion": "2.1.5",
+        "minimumDockerDesktopVersion": null
+      },
+      "promotionChecklist": [
+        "This fixture must fail validation."
+      ],
+      "approval": null
+    }
+  ]
+}

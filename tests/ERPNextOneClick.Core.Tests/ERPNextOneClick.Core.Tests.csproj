@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <ProjectReference Include="..\..\src\ERPNextOneClick.Core\ERPNextOneClick.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\assets\release-catalog.json" Link="assets\release-catalog.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\ReleaseCatalog\fixtures\approved-entry-complete-fixture.json" Link="fixtures\approved-entry-complete-fixture.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\ReleaseCatalog\fixtures\approved-entry-missing-digest.json" Link="fixtures\approved-entry-missing-digest.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

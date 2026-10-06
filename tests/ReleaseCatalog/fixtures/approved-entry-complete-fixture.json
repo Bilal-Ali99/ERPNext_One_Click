@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0.0",
+  "catalogStatus": "approved",
+  "entries": [
+    {
+      "id": "erpnext-v16-approved-fixture",
+      "status": "approved",
+      "erpnextMajor": 16,
+      "sourceEvidence": [
+        "https://raw.githubusercontent.com/frappe/frappe_docker/main/example.env"
+      ],
+      "compose": {
+        "repository": "frappe/frappe_docker",
+        "sourceRef": "test-fixture",
+        "sourceCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "files": [
+          "compose.yaml",
+          "overrides/compose.mariadb.yaml",
+          "overrides/compose.redis.yaml"
+        ]
+      },
+      "images": {
+        "erpnext": {
+          "repository": "frappe/erpnext",
+          "tag": "test-only",
+          "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        "mariadb": {
+          "repository": "mariadb",
+          "tag": "test-only",
+          "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        "redis": {
+          "repository": "redis",
+          "tag": "test-only",
+          "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        }
+      },
+      "requirements": {
+        "architecture": "x64",
+        "minimumWslVersion": "2.1.5",
+        "minimumDockerDesktopVersion": "test-only"
+      },
+      "promotionChecklist": [
+        "Synthetic fixture only; never install from this document."
+      ],
+      "approval": {
+        "approvedOn": "2026-10-07",
+        "testedWindowsBuilds": [
+          "test-only"
+        ],
+        "testedDockerDesktopVersion": "test-only"
+      }
+    }
+  ]
+}
