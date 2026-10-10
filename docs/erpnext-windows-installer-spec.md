@@ -38,7 +38,7 @@ message; soft warnings are shown but do not block.
 | Free disk space | Hard blocker | Recommend 45 GB; hard minimum 20 GB |
 | RAM | Soft warning | Recommend 8 GB+ |
 | Internet connectivity | Hard blocker | Required for image pulls |
-| Port availability (8000, 3306, 6379, 80/443) | Soft warning | Detect and report conflicts |
+| Port availability (8000 only) | Soft warning | Detect and report a conflict; no other service port is published or checked in v1 |
 | Windows Firewall status | Soft warning | Check and explain possible Docker-networking blocks |
 | Existing Docker Desktop install | Soft warning | Detect version; offer, never force, an upgrade |
 | Corporate proxy/VPN | Out of scope v1 | Documented unsupported limitation |
