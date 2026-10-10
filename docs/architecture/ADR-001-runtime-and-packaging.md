@@ -1,28 +1,25 @@
-# ADR-001: Windows runtime and packaging boundary
+# ADR-001: Inno Setup wrapper and PowerShell orchestration
 
-Status: Accepted for Phase 0
-Date: 2026-10-07
+Status: Accepted
 
-## Context
-
-The product is a Windows x64 installer and manager for a local ERPNext site.
-It needs native access to UAC, Windows features, WSL, Scheduled Tasks, DPAPI,
-filesystem ACLs, and Docker Desktop while remaining supportable after a reboot.
+Date: 2026-10-11
 
 ## Decision
 
-- Build the manager and installation workflow as a self-contained .NET 10 LTS
-  WPF x64 application.
-- Keep orchestration in reusable Core, Windows, Docker, and Security libraries.
-- Prove the first provisioning path with a console entry point that calls those
-  same libraries; it is not a disposable script.
-- Use WiX packaging only after the executable manager is working. Installer MSI
-  custom actions must not own long-running pulls, reboot resume, or data changes.
+- Use Inno Setup to compile the Windows installer executable.
+- Use PowerShell 5.1-compatible scripts for all host-side orchestration.
+- Keep installer state in the JSON path mandated by `AGENTS.md`.
+- Use Pester for PowerShell tests.
+
+## Rationale
+
+Windows already provides PowerShell and the administrative interfaces needed
+for WSL, Windows features, Docker detection, scheduled tasks, and filesystem
+operations. This avoids adding a second host runtime for orchestration.
 
 ## Consequences
 
-- The development/build environment requires the .NET 10 SDK.
-- Phase 1 can create the solution and test harness without committing to final
-  WiX packaging details.
-- The WPF UI remains an orchestration client, not the owner of installation
-  state or privileged commands.
+The former .NET/WPF/WiX prototype is superseded and is not part of the
+installer runtime. A self-contained .NET helper may only be introduced through
+an explicit future architecture decision; it must not create a competing state
+machine or orchestration path.
