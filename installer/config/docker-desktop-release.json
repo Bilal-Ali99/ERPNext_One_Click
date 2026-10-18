@@ -1,0 +1,13 @@
+{
+  "version": "4.95.0",
+  "architecture": "amd64",
+  "installerUrl": "https://desktop.docker.com/win/main/amd64/242831/Docker%20Desktop%20Installer.exe",
+  "sha256": "73431db38491f770543880366228a23c993f84d1e8e045f56d83b8a98940cf76",
+  "installScope": "allUsers",
+  "installerArguments": [
+    "install",
+    "--backend=wsl-2",
+    "--no-windows-containers",
+    "--quiet"
+  ]
+}
