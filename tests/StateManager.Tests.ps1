@@ -12,6 +12,7 @@ Describe 'StateManager' {
         $state.wsl_processors | Should Be 2
         $state.resume_token | Should Be ''
         $state.resume_task_name | Should Be ''
+        $state.docker_install_approved | Should Be $false
     }
 
     It 'writes a state document and retains a readable backup on update' {
@@ -38,5 +39,14 @@ Describe 'StateManager' {
         $state.stage = 'FEATURES_ENABLED_PENDING_RESTART'
 
         { Assert-InstallState -State $state } | Should Throw
+    }
+
+    It 'persists explicit Docker installation approval across a restart state' {
+        $path = Join-Path $TestDrive 'docker-approval-state.json'
+
+        Set-InstallState -Path $path -Stage 'PREFLIGHT_DONE' -Values @{ docker_install_approved = $true } | Out-Null
+        $state = Get-InstallState -Path $path
+
+        $state.docker_install_approved | Should Be $true
     }
 }

@@ -15,6 +15,7 @@ function New-InstallState {
         wsl_processors = 2
         resume_token = ''
         resume_task_name = ''
+        docker_install_approved = $false
         last_updated = [DateTime]::UtcNow.ToString('o')
     }
 }
@@ -26,7 +27,7 @@ function Assert-InstallState {
         [psobject]$State
     )
 
-    foreach ($property in @('stage', 'erpnext_version', 'site_name', 'wsl_memory', 'wsl_processors', 'resume_token', 'resume_task_name', 'last_updated')) {
+    foreach ($property in @('stage', 'erpnext_version', 'site_name', 'wsl_memory', 'wsl_processors', 'resume_token', 'resume_task_name', 'docker_install_approved', 'last_updated')) {
         if ($null -eq $State.PSObject.Properties[$property]) {
             throw "Install state is missing the required '$property' property."
         }
@@ -46,6 +47,10 @@ function Assert-InstallState {
 
     if ([int]$State.wsl_processors -lt 1) {
         throw 'Install state must contain at least one WSL processor.'
+    }
+
+    if ($State.docker_install_approved -isnot [bool]) {
+        throw 'Install state must contain a Boolean Docker installation approval value.'
     }
 
     if ($State.stage -eq 'FEATURES_ENABLED_PENDING_RESTART' -and ([string]::IsNullOrWhiteSpace($State.resume_token) -or [string]::IsNullOrWhiteSpace($State.resume_task_name))) {

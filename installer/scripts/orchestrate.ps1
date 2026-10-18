@@ -4,7 +4,8 @@ param(
     [string]$StatePath,
     [string]$ResumeToken,
     [ValidateSet('RestartNow', 'RestartLater', 'None')]
-    [string]$RestartChoice = 'None'
+    [string]$RestartChoice = 'None',
+    [switch]$InstallDocker
 )
 
 Set-StrictMode -Version Latest
@@ -34,7 +35,7 @@ if ($state.stage -eq 'NOT_STARTED') {
     }
 
     if (-not $WhatIf) {
-        $state = Set-InstallState -Path $StatePath -Stage 'PREFLIGHT_DONE'
+        $state = Set-InstallState -Path $StatePath -Stage 'PREFLIGHT_DONE' -Values @{ docker_install_approved = [bool]$InstallDocker }
         Write-InstallLog -Level Info -Stage $state.stage -Message 'Preflight completed successfully.' | Out-Null
     }
 
@@ -50,14 +51,22 @@ if ($state.stage -eq 'NOT_STARTED') {
 }
 
 if ($state.stage -eq 'PREFLIGHT_DONE') {
+    if (-not $WhatIf) {
+        $state = Set-InstallState -Path $StatePath -Stage 'PREFLIGHT_DONE' -Values @{ docker_install_approved = [bool]$InstallDocker }
+    }
+
     if ($RestartChoice -ne 'None') {
         $featureScriptPath = Join-Path $PSScriptRoot 'enable-features.ps1'
         $featureEnablement = & $featureScriptPath -Mode Enable -RestartChoice $RestartChoice -StatePath $StatePath
-        return [pscustomobject]@{
-            Mode = 'Execute'
-            State = Get-InstallState -Path $StatePath
-            FeatureEnablement = $featureEnablement
+        if ($featureEnablement.RestartRequired) {
+            return [pscustomobject]@{
+                Mode = 'Execute'
+                State = Get-InstallState -Path $StatePath
+                FeatureEnablement = $featureEnablement
+            }
         }
+
+        $state = Get-InstallState -Path $StatePath
     }
 
     return [pscustomobject]@{
@@ -76,10 +85,19 @@ if ($state.stage -eq 'FEATURES_ENABLED_PENDING_RESTART') {
 }
 
 if ($state.stage -eq 'FEATURES_CONFIRMED') {
+    $dockerScriptPath = Join-Path $PSScriptRoot 'install-docker.ps1'
+    $dockerInstallApproved = $InstallDocker -or $state.docker_install_approved
+    if ($dockerInstallApproved) {
+        $dockerResult = & $dockerScriptPath -Mode Install -InstallApproved -StatePath $StatePath -WhatIf:$WhatIf
+    }
+    else {
+        $dockerResult = & $dockerScriptPath -Mode Detect -StatePath $StatePath -WhatIf:$WhatIf
+    }
+
     return [pscustomobject]@{
         Mode = if ($WhatIf) { 'WhatIf' } else { 'Execute' }
-        State = $state
-        NextAction = 'Docker lifecycle is not implemented yet.'
+        State = Get-InstallState -Path $StatePath
+        Docker = $dockerResult
     }
 }
 
