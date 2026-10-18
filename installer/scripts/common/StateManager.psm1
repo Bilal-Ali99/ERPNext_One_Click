@@ -1,7 +1,7 @@
 Set-StrictMode -Version Latest
 
 $utilsPath = Join-Path $PSScriptRoot 'Utils.psm1'
-Import-Module $utilsPath -Force
+Import-Module $utilsPath
 
 function New-InstallState {
     [CmdletBinding()]
@@ -13,6 +13,8 @@ function New-InstallState {
         site_name = ''
         wsl_memory = '6GB'
         wsl_processors = 2
+        resume_token = ''
+        resume_task_name = ''
         last_updated = [DateTime]::UtcNow.ToString('o')
     }
 }
@@ -24,7 +26,7 @@ function Assert-InstallState {
         [psobject]$State
     )
 
-    foreach ($property in @('stage', 'erpnext_version', 'site_name', 'wsl_memory', 'wsl_processors', 'last_updated')) {
+    foreach ($property in @('stage', 'erpnext_version', 'site_name', 'wsl_memory', 'wsl_processors', 'resume_token', 'resume_task_name', 'last_updated')) {
         if ($null -eq $State.PSObject.Properties[$property]) {
             throw "Install state is missing the required '$property' property."
         }
@@ -44,6 +46,10 @@ function Assert-InstallState {
 
     if ([int]$State.wsl_processors -lt 1) {
         throw 'Install state must contain at least one WSL processor.'
+    }
+
+    if ($State.stage -eq 'FEATURES_ENABLED_PENDING_RESTART' -and ([string]::IsNullOrWhiteSpace($State.resume_token) -or [string]::IsNullOrWhiteSpace($State.resume_task_name))) {
+        throw 'Pending feature restart state requires resume metadata.'
     }
 
     $parsedTimestamp = [DateTime]::MinValue
