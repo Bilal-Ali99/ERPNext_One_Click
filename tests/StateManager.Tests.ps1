@@ -10,6 +10,8 @@ Describe 'StateManager' {
         $state.stage | Should Be 'NOT_STARTED'
         $state.wsl_memory | Should Be '6GB'
         $state.wsl_processors | Should Be 2
+        $state.resume_token | Should Be ''
+        $state.resume_task_name | Should Be ''
     }
 
     It 'writes a state document and retains a readable backup on update' {
@@ -29,5 +31,12 @@ Describe 'StateManager' {
 
         { Set-InstallState -Path $path -Stage 'NOT_A_STAGE' } | Should Throw
         (Test-Path -LiteralPath $path) | Should Be $false
+    }
+
+    It 'requires resume metadata while awaiting a feature restart' {
+        $state = New-InstallState
+        $state.stage = 'FEATURES_ENABLED_PENDING_RESTART'
+
+        { Assert-InstallState -State $state } | Should Throw
     }
 }

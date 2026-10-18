@@ -34,6 +34,7 @@ function Get-InstallerConstants {
         DbVolumeName = 'erpnext_db_data'
         SitesVolumeName = 'erpnext_sites'
         DefaultSitePort = 8000
+        ResumeTaskName = 'ERPNextWindowsInstaller-Resume'
     }
 }
 
